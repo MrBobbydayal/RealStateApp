@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import {useForm}from 'react-hook-form'
 import {useNavigate} from 'react-router-dom'
+import Header from '../components/Header.jsx'
+import Footer from '../components/Footer.jsx'
 function AddProperty(){
 
     const [error,seterror] = useState(false)
@@ -66,87 +68,72 @@ function AddProperty(){
 
 
     return(
-        <div>
-               
-
-                {loading && <div className="p-6">
-                    <div className="p-4 text-3xl text-blue-400 font-semibold text-center mb-8">My Listings Are </div>
-                    <div className=" grid grid-cols-4 gap-x-6 gap-y-6">
-                 {userListings.map((item)=>(
-              <div key={item._id} onClick={()=>{showDeatils(item._id)}} className="w-[300px]  bg-gray-100 rounded-xl ">
-                <div className="mb-4"><img src={item.images[0]} alt="" /></div>
-                <div className="p-3">
-                <p className="text-2xl mb-4">{item.title}</p>
-                <p className="mb-8">{item.description}</p>
-                <div>
-                <span className="pr-2">Location:</span>
-                <span>{item.location}</span>
-                </div>
-                <div>
-                <span className="pr-2">Seller:</span>
-                <span>{item.sellername}</span>
-                </div>
-                <div>
-                  <span className="pr-2">Price</span>
-                  <span>${item.price}</span>
-                </div>
-                </div>
-              </div>
-            ))}
-            
+      <>
+      <Header/>
+       <div className="flex gap-4 p-6 h-[90vh] overflow-hidden">
+  {/* LEFT: My Listings (scrollable) */}
+  <div className="w-1/2 overflow-y-scroll pr-2">
+    <div className="text-3xl text-blue-400 font-semibold text-center mb-6">My Listings</div>
+    <div className="grid grid-cols-1 gap-6">
+      {userListings.map((item) => (
+        <div key={item._id} onClick={() => showDeatils(item._id)} className="bg-gray-100 rounded-xl shadow-md p-3 cursor-pointer hover:shadow-lg transition">
+          <div className="mb-2">
+            <img src={item.images[0]} alt="" className="rounded w-full h-[180px] object-cover" />
+          </div>
+          <div>
+            <p className="text-xl font-semibold mb-1">{item.title}</p>
+            <p className="text-sm text-gray-600 mb-2">{item.description}</p>
+            <p><span className="font-medium">Location:-</span> {item.location}</p>
+            <p><span className="font-medium">Seller:-</span> {item.seller.fullname}</p>
+            <div> 
+                  <span className="font-medium">Price:-</span>
+                  <span className="text-red-600">${item.price}</span>
             </div>
-                    </div>}
-
-
-                <div className=" text-3xl text-blue-400 font-semibold text-center p-4 mb-6">Add A new Property </div>
-                <div className="flex justify-center p-6">
-                    <div className="w-1/2">
-                    <form action="" onSubmit={handleSubmit(AddProp)} className="bg-gray-100  rounded-lg p-6" >
-                        <div className="text-3xl text-center p-6 mb-3">Add proprty</div>
-                        
-                        <div className=" grid grid-cols-2 m-4 ">
-                            <div className="text-xl">Add Title:</div>
-                            <input type="text" className="p-2 rounded-lg" name="title" {...register("title")} />
-                        </div>
-                        <div className="grid grid-cols-2 m-4">
-                            <p className="text-xl">Add description:</p>
-                            <input type="text" className="p-2 rounded-lg" name="description" {...register("description")} />
-                        </div>
-                        <div className="grid grid-cols-2 m-4">
-                            <p className="text-xl">Add location:</p>
-                            <input type="text" className="p-2 rounded-lg" name="location" {...register("location")} />
-                        </div>
-                        <div className="grid grid-cols-2 m-4">
-                            <p className="text-xl">Add price:</p>
-                            <input type="text" className="p-2 rounded-lg" name="price" {...register("price")} />
-                        </div>
-                        <div className="grid grid-cols-2 m-4">
-                            <p className="text-xl">Add bedrooms:</p>
-                            <input type="text" className="p-2 rounded-lg" name="bedrooms" {...register("bedrooms")} />
-                        </div>
-                        <div className="grid grid-cols-2 m-4">
-                            <p className="text-xl">Add bathrooms:</p>
-                            <input type="text" className="p-2 rounded-lg" name="bathrooms" {...register("bathrooms")} />
-                        </div>
-                        <div className="grid grid-cols-2 m-4">
-                            <p className="text-xl">Add image:</p>
-                            <input type="file" className="p-2 rounded-lg" name="photos" accept="image/png, image/jpg , image/jpeg,  image/svg" {...register("photos")}/>
-                        </div>
-                        <div className="grid grid-cols-2 m-4">
-                            <p className="text-xl">Add propertyType:</p>
-                            <input type="text" className="p-2 rounded-lg" name="propertyType"  {...register("propertyType")}/>
-                        </div>
-                        {/* propertyType */}
-                        {error && <div className="text-center text-red-400 text-lg p-4">Error Property with same title exists !!</div>}
-                     <div className="flex justify-center"><button type="submit" className="p-2 text-xl w-60 rounded bg-blue-200">submit </button></div>
-                  
-                    </form>
-                    </div>
-                </div>
-
-
+          </div>
         </div>
-    )
+      ))}
+    </div>
+  </div>
+
+  {/* RIGHT: Add Property Form (also scrollable if needed) */}
+  <div className="w-1/2 overflow-y-scroll pl-2">
+    <div className="text-3xl text-blue-400 font-semibold text-center mb-4">Add A New Property</div>
+    <form onSubmit={handleSubmit(AddProp)} className="bg-slate-300 rounded-lg p-6 shadow-md">
+      <div className="text-2xl text-center mb-6">Add Property</div>
+
+      {/* Form Fields */}
+      {[
+        { label: "Title", name: "title" },
+        { label: "Description", name: "description" },
+        { label: "Location", name: "location" },
+        { label: "Price", name: "price" },
+        { label: "Bedrooms", name: "bedrooms" },
+        { label: "Bathrooms", name: "bathrooms" },
+        { label: "Property Type", name: "propertyType" }
+      ].map(({ label, name }) => (
+        <div className="mb-4 grid grid-cols-2 items-center" key={name}>
+          <label className="text-lg">{label}:</label>
+          <input type="text" className="p-2 rounded-lg" {...register(name)} />
+        </div>
+      ))}
+
+      <div className="mb-4 grid grid-cols-2 items-center">
+        <label className="text-lg">Add Image:</label>
+        <input type="file" className="p-2 rounded-lg" accept="image/*" {...register("photos")} />
+      </div>
+
+      {error && <div className="text-center text-red-500 mb-4">Error: Property with same title exists!</div>}
+
+      <div className="flex justify-center">
+        <button type="submit" className="bg-green-700 text-white px-6 py-2 rounded hover:bg-green-800">
+          Submit
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+<Footer/>
+ </>   )
 }
 
 export default AddProperty

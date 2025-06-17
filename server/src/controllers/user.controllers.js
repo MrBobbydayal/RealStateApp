@@ -5,31 +5,111 @@ import { User } from '../models/user.models.js'
 import { uploadOnCloudinary } from "../utils/cloudinary.utils.js";
 import {Property} from '../models/property.models.js'
 
-const registerUser = asyncHandler(async(req,res)=>{
-    const {fullname , username , email , password , role} = await req.body
-    if(
-        (!fullname || !username || !password || !email )
-    ){
-        throw new ApiError(401,"all feilds are required")
-    }
-    // find if user already exsist
-    const exsistingUser = await User.findOne({username})
-    if(exsistingUser) throw new ApiError(402,"User already Exists !!")
+// const registerUser = asyncHandler(async(req,res)=>{
+//     const {fullname , username , email,mobile,adress, password , role} = req.body
+//     if(
+//         (!fullname || !username || !password || !email || !mobile || !adress)
+//     ){
+//         throw new ApiError(401,"all feilds are required")
+//     }
+//     // find if user already exsist
+//     const exsistingUser = await User.findOne({username})
+//     if(exsistingUser) throw new ApiError(402,"User already Exists !!")
 
-    const user = await User.create({
-        fullname:fullname,
-        email:email,
-        username:username,
-        password:password,
-        role:"user",
-    })
+//         console.log("FILES => ", req.files);
+//         console.log("BODY => ", req.body);
 
-    const createdUser = await User.findById(user._id).select("-password")
-    return res.status(200)
-    .json(
-        new ApiResponse(200,createdUser,"user registerd successfully ")
-    )
-})
+//          const avatarLocalPath = req.files?.avatar[0]?.path;
+//     //const coverImageLocalPath = req.files?.coverImage[0]?.path;
+//        console.log(avatarLocalPath);
+//     if (!avatarLocalPath) {
+//         throw new ApiError(400, "Avatar file is required")
+        
+//     }
+
+//     const avatar = await uploadOnCloudinary(avatarLocalPath)
+             
+//     console.log(avatar);
+
+//     if (!avatar) {
+       
+//         throw new ApiError(400, "Avatar  is required")
+//     }
+        
+   
+
+//     const user = await User.create({
+//         fullname:fullname,
+//         avatar: avatar.url,
+//         email:email,
+//         username:username,
+//         mobile:mobile,
+//         adress:adress,
+//         password:password,
+//         role:"user",
+//     })
+
+//     const createdUser = await User.findById(user._id).select("-password")
+//     return res.status(200)
+//     .json(
+//         new ApiResponse(200,createdUser,"user registerd successfully ")
+//     )
+// })
+
+
+
+
+const registerUser = asyncHandler(async (req, res) => {
+  const { fullname, username, email, mobile, adress, password } = req.body;
+
+  
+  if (!fullname || !username || !password || !email || !mobile || !adress) {
+    throw new ApiError(400, "All fields are required.");
+  }
+
+  
+  const existingUser = await User.findOne({ username });
+  if (existingUser) {
+    throw new ApiError(409, "User already exists with this username.");
+  }
+
+ 
+  const avatarLocalPath = req.files?.avatar?.[0]?.path;
+  if (!avatarLocalPath) {
+    throw new ApiError(401, "Avatar file is required.");
+  }
+
+  const avatarUpload = await uploadOnCloudinary(avatarLocalPath);
+  if (!avatarUpload) {
+    throw new ApiError(500, "Failed to upload avatar to Cloudinary.");
+  }
+
+  
+  let user;
+  try {
+    user = await User.create({
+      fullname,
+      username,
+      email,
+      mobile,
+      adress,
+      password,
+      avatar: avatarUpload,
+      role: "user", // Hardcoded role
+    });
+  } catch (err) {
+    console.error("❌ Mongoose Validation Error:", err.errors || err);
+    throw new ApiError(500, "User creation failed. Please check field types.");
+  }
+
+  
+  const createdUser = await User.findById(user._id).select("-password");
+
+  return res
+    .status(201)
+    .json(new ApiResponse(201, createdUser, "User registered successfully."));
+});
+
 
 const generateAccessAndRefreshTokens = async(userid)=>{
     try {
@@ -68,7 +148,7 @@ const loginUser = asyncHandler(async(req,res)=>{
     .cookie("accessToken",accessToken,options)
     .cookie("refreshToken",refreshToken,options)
     .json(
-        new ApiResponse(200,loggedInUser,"user Successfully loggedin")
+        new ApiResponse(200, { user: loggedInUser, token: accessToken },"user Successfully loggedin")
     )
 
 })

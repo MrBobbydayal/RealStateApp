@@ -20,6 +20,20 @@ const userSchema = new Schema({
         type:String,
         required:true
     },
+    avatar: {
+            type: String, // cloudinary url
+            required: true,
+        },
+    mobile: 
+            {
+                type: String,
+                 required:true,
+            },
+    adress:
+       {
+        type:String,
+        required:true, 
+        },
     role:{
         type:String,
         enum:["admin","user"],
@@ -27,9 +41,6 @@ const userSchema = new Schema({
     },
     refreshToken:{
         type:String,
-    },
-    image:{
-        type:String
     }
 },{timestamps:true})
 

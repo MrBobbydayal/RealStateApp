@@ -4,13 +4,13 @@ return(
     <div>
         <div className="flex justify-between  bg-black/80 text-white p-6 ">
             <div>
-                <p className="text-2xl">RealStateHub</p> 
+                <p className="text-2xl">StayFinder</p> 
                 <p>your perfect parten in finding the perfect Property</p>
             </div>
             <div>
                 <p className="text-2xl">Contact Us</p>
-                <p>Email:contact@realSateHub.com</p>
-                <p>Phone:+123 4567890</p>
+                <p>📧:contact@stayfinder.com</p>
+                <p>📞:+123 4567890</p>
             </div>
             <div>
                 <p className="text-2xl px-2">Quick Links</p>
