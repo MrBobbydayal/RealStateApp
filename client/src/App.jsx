@@ -10,6 +10,9 @@ import PropertyDetails from './pages/Propertydeatils.jsx'
 import SearchResult from './pages/SearchResult.jsx'
 import SignupPage from './pages/SignupPage.jsx'
 import AddProperty from './pages/AddProperty.jsx'
+import PropertyBooking from './pages/Bookproperty.jsx'
+import { RecievedBookings } from './pages/BookingRecieved.jsx'
+import { MyBookings } from './pages/Mybookings.jsx'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -24,6 +27,8 @@ function App() {
         <Route path='property/search/:location' element ={<SearchResult/>}></Route>
         <Route path='property/details/:id' element={<PropertyDetails/>}></Route>
         <Route path='property/addNew' element={<AddProperty/>}></Route>
+        <Route path='property/RecievedBookings' element={<RecievedBookings/>}></Route>
+        <Route path='property/myBookings' element={<MyBookings/>}></Route>
       </Route>
       </>
   ))

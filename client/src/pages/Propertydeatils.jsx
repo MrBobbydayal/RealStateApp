@@ -4,8 +4,10 @@ import seller from '../assets/seller.png'
 import Header from "../components/Header.jsx";
 import Footer from "../components/Footer.jsx";
 import Loader from "../components/Loader.jsx";
+import { useNavigate } from "react-router-dom";
 
 const PropertyDetails = function(){
+    const navigate=useNavigate();
     const [loading , setLoading] = useState(true)
     const [propertyData,setpropertyData] = useState({})
     const {id} = useParams()
@@ -26,7 +28,28 @@ const PropertyDetails = function(){
         }).catch(err => console.log(err))
     },[])
 
-    // console.log(propertyData.seller.fullname);
+const handleBooking = () => {
+  const bookingInfo = {
+    _id: propertyData._id,
+    title: propertyData.title,
+    location: propertyData.location,
+    price: propertyData.price,
+    seller: {
+      name: propertyData.seller?.fullname,
+      phone: propertyData.seller?.mobile
+    }
+  };
+
+  localStorage.setItem('bookingInfo', JSON.stringify(bookingInfo));
+
+  navigate("/property/booking", {
+    state: {
+      property: bookingInfo
+    }
+  });
+};
+
+
 
      if(loading) return(
       <div>
@@ -67,7 +90,7 @@ const PropertyDetails = function(){
                     </div>
                     <div>
                         <div className="flex justify-center"><button className="p-2 m-4 text-white font-semibold bg-blue-400 rounded-lg hover:bg-blue-600 w-80 ">Inquire About This property</button></div>
-                        <div className="flex justify-center"><button className="p-2 m-4 text-white font-semibold bg-green-400 rounded-lg hover:bg-green-600 w-80 ">Book/Rent</button></div>
+                        <div className="flex justify-center"><button className="p-2 m-4 text-white font-semibold bg-green-400 rounded-lg hover:bg-green-600 w-80 " onClick={handleBooking}>Book/Rent</button></div>
                     </div>
             </div>
         </div>

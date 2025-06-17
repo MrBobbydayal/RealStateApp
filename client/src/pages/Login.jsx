@@ -90,10 +90,20 @@ const Login = function(){
             setmessage(false);
             setError(false);
 
+
+            if (data.data?.user) {
+
+            localStorage.setItem("user", JSON.stringify(data.data.user)); 
+            console.log("Saving user:",JSON.stringify(data.data.user) );
+
+            }
+            
             
             if (data.data?.token) {
+                
                 localStorage.setItem("token", data.data.token);
                 console.log("Saving token:", data.data.token);
+                
             }
 
             const redirectPath = location.state?.from || "/property/search";
