@@ -5,57 +5,6 @@ import { User } from '../models/user.models.js'
 import { uploadOnCloudinary } from "../utils/cloudinary.utils.js";
 import {Property} from '../models/property.models.js'
 
-// const registerUser = asyncHandler(async(req,res)=>{
-//     const {fullname , username , email,mobile,adress, password , role} = req.body
-//     if(
-//         (!fullname || !username || !password || !email || !mobile || !adress)
-//     ){
-//         throw new ApiError(401,"all feilds are required")
-//     }
-//     // find if user already exsist
-//     const exsistingUser = await User.findOne({username})
-//     if(exsistingUser) throw new ApiError(402,"User already Exists !!")
-
-//         console.log("FILES => ", req.files);
-//         console.log("BODY => ", req.body);
-
-//          const avatarLocalPath = req.files?.avatar[0]?.path;
-//     //const coverImageLocalPath = req.files?.coverImage[0]?.path;
-//        console.log(avatarLocalPath);
-//     if (!avatarLocalPath) {
-//         throw new ApiError(400, "Avatar file is required")
-        
-//     }
-
-//     const avatar = await uploadOnCloudinary(avatarLocalPath)
-             
-//     console.log(avatar);
-
-//     if (!avatar) {
-       
-//         throw new ApiError(400, "Avatar  is required")
-//     }
-        
-   
-
-//     const user = await User.create({
-//         fullname:fullname,
-//         avatar: avatar.url,
-//         email:email,
-//         username:username,
-//         mobile:mobile,
-//         adress:adress,
-//         password:password,
-//         role:"user",
-//     })
-
-//     const createdUser = await User.findById(user._id).select("-password")
-//     return res.status(200)
-//     .json(
-//         new ApiResponse(200,createdUser,"user registerd successfully ")
-//     )
-// })
-
 
 
 
@@ -98,7 +47,7 @@ const registerUser = asyncHandler(async (req, res) => {
       role: "user", // Hardcoded role
     });
   } catch (err) {
-    console.error("❌ Mongoose Validation Error:", err.errors || err);
+    console.error("Mongoose Validation Error:", err.errors || err);
     throw new ApiError(500, "User creation failed. Please check field types.");
   }
 
@@ -152,6 +101,27 @@ const loginUser = asyncHandler(async(req,res)=>{
     )
 
 })
+
+
+
+const getUserProfile = asyncHandler(async (req, res) => {
+  const userId = req.user?._id;
+
+  if (!userId) {
+    throw new ApiError(401, "Unauthorized: User ID not found.");
+  }
+
+  const user = await User.findById(userId).select("-password");
+  
+  if (!user) {
+    throw new ApiError(404, "User not found.");
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, user, "User profile fetched successfully."));
+});
+
 
 const logoutUser = asyncHandler(async(req,res)=>{
     const userid = req.user?._id
@@ -255,8 +225,10 @@ const getUserListings = asyncHandler(async(req,res)=>{
 export {
     registerUser,
     loginUser,
+    getUserProfile,
     logoutUser,
     addPropertylisting,
     removePropertyListing,
     getUserListings
 }
+

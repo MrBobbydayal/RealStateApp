@@ -1,4 +1,8 @@
 import React from "react";
+import { FaPhoneAlt, FaEnvelope } from "react-icons/fa";
+
+
+
 function Footer(){
 return(
     <div>
@@ -9,9 +13,16 @@ return(
             </div>
             <div>
                 <p className="text-2xl">Contact Us</p>
-                <p>📧:contact@stayfinder.com</p>
-                <p>📞:+123 4567890</p>
+                <div className="space-y-2 text-white">
+                   <p className="flex items-center gap-2 ">
+                     <FaPhoneAlt className="text-blue-500" />:- +91 76172 59243
+                   </p>
+                   <p className="flex items-center gap-2">
+                      <FaEnvelope className="text-red-500" />:- StayFinder@ac.in
+                   </p>
+                </div>
             </div>
+
             <div>
                 <p className="text-2xl px-2">Quick Links</p>
                  <a href="#" className="p-2 hover:underline">Home</a>
@@ -21,6 +32,9 @@ return(
 
         </div>
     </div>
+
+
+    
 )
 }
 export default Footer

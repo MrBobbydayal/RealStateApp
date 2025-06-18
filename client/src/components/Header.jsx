@@ -1,5 +1,5 @@
 import React from "react";
-import { FaHome } from "react-icons/fa";
+import { FaHome ,FaSignInAlt, FaUserPlus,FaSignOutAlt, FaUserAlt} from "react-icons/fa";
 import {useNavigate} from 'react-router-dom'
 import logo from '/logo.png'
 function Header(){
@@ -24,23 +24,59 @@ const handleLogout= async ()=>{
 
 
 return(
-    <div> 
-        <div className="flex justify-between px-20 p-4 shadow-lg bg-blue-400">
 
-            <div className="flex  items-center "><div><img alt="logo" src={logo} className="h-14 rounded-full"/></div> <div className="font-semibold text-3xl text-white ">StayFinder </div></div>
-            <div className="flex items-center">
-                <ul className="flex gap-2 text-white text-xl ">
-                    <li><div className="p-2 hover:border-b-2 hover:border-b-white" onClick={()=>{navigate('/')}} >Listing</div></li>
-                    <li><div className="p-2 hover:border-b-2 hover:border-b-white" onClick={()=>{navigate('/property/search')}} >Search</div></li>
-                    <li><div className="p-2 hover:border-b-2 hover:border-b-white" onClick={()=>{navigate('/property/addNew')}}>MyListings/Add NewProp</div></li>
-                     <li><div className="p-2 hover:border-b-2 hover:border-b-white" onClick={()=>{navigate('/property/myBookings')}} >MyBookings</div></li>
-                      <li><div className="p-2 hover:border-b-2 hover:border-b-white" onClick={()=>{navigate('/property/RecievedBookings')}} >BookingRecieved</div></li>
-                    <li><div className="p-2 hover:border-b-2 hover:border-b-white" onClick={()=>{navigate('/user/login')}} >Login</div></li>
-                    <li><div className="p-2 hover:border-b-2 hover:border-b-white" onClick={()=>{navigate('/user/signup')}}>SignUp</div></li>
-                    <li><div className="p-2 hover:border-b-2 hover:border-b-white" onClick={handleLogout}>Logout</div></li>
-                </ul>
-            </div>
+     <div className="w-full shadow-lg bg-blue-400">
+      <div className="flex flex-col md:flex-row justify-between items-center px-4 md:px-20 py-4">
+       
+        <div className="flex items-center space-x-3 mb-2 md:mb-0">
+          <img alt="logo" src={logo} className="h-14 rounded-full" />
+          <div className="font-semibold text-3xl text-white">StayFinder</div>
         </div>
+
+        
+        <ul className="flex flex-wrap gap-6 text-white text-2xl justify-center md:justify-end">
+          <li>
+            <div
+              className="p-2 hover:border-b-2 hover:border-white cursor-pointer"
+              onClick={() => navigate("/")}
+            >
+              <FaHome />
+            </div>
+          </li>
+          <li>
+            <div
+              className="p-2 hover:border-b-2 hover:border-white cursor-pointer"
+              onClick={() => navigate("/user/Dashboard")}
+            >
+              <FaUserAlt />
+            </div>
+          </li>
+          <li>
+            <div
+              className="p-2 hover:border-b-2 hover:border-white cursor-pointer"
+              onClick={() => navigate("/user/login")}
+            >
+              <FaSignInAlt />
+            </div>
+          </li>
+          <li>
+            <div
+              className="p-2 hover:border-b-2 hover:border-white cursor-pointer"
+              onClick={() => navigate("/user/signup")}
+            >
+              <FaUserPlus />
+            </div>
+          </li>
+          <li>
+            <div
+              className="p-2 hover:border-b-2 hover:border-white cursor-pointer"
+              onClick={handleLogout}
+            >
+              <FaSignOutAlt />
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
 )
 }

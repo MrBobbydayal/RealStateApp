@@ -148,7 +148,7 @@ function PropertyBooking() {
         generateReceipt();
         localStorage.removeItem("bookingInfo");
         alert("Booking successful!");
-        navigate("/my-bookings");
+        navigate("/user/Dashboard");
     }else if(response?.status == 400){
         alert("Property is already booked for the selected dates")
     }else if(response?.status == 401){

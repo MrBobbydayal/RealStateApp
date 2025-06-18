@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../components/Loader.jsx";
+import Header from "../components/Header.jsx";
+import Footer from "../components/Footer.jsx";
 
 function SearchResult(){
     const [searchFeildValue,setSearchFeildValue] = useState("")
@@ -62,54 +64,69 @@ function SearchResult(){
 
     if(loading) return <div><Loader/></div>
 
-    return (
-        <div>
+    return (<>
+       <Header />
+<div className="px-4">
+ 
+  <div className="flex flex-col md:flex-row justify-center items-center gap-4 my-12">
+    <input
+      type="text"
+      value={searchFeildValue}
+      placeholder="Location"
+      onChange={(e) => setSearchFeildValue(e.target.value)}
+      className="border-2 w-full max-w-xs p-2 rounded-lg"
+    />
+    <button
+      onClick={getData}
+      className="p-2 w-full max-w-[10rem] text-white text-lg rounded bg-blue-400 hover:bg-blue-500 transition"
+    >
+      Search
+    </button>
+  </div>
 
-           
+  
+  {error && (
+    <div className="text-xl text-center text-red-500 mb-6">
+      {errorMessage}
+    </div>
+  )}
 
-            <div className="flex justify-center my-12">
-               <input type="text"
-                value={searchFeildValue}
-                placeholder="Location"
-                onChange={(e)=>{setSearchFeildValue(e.target.value)}}
-                className="border-2 w-80 p-2 rounded-lg mr-6 "
-                />
-               <button onClick={getData} className="p-2 text-white text-lg  w-40 rounded bg-blue-300 hover:bg-blue-400">Search</button>
+  
+  <div className="flex justify-center px-2">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16 w-full max-w-7xl">
+      {searchData.map((item) => (
+        <div
+          key={item._id}
+          onClick={() => showDeatils(item._id)}
+          className="bg-white rounded-xl shadow-xl hover:shadow-2xl transition duration-300 cursor-pointer"
+        >
+          <img
+            src={item.images[0]}
+            alt={item.title}
+            className="w-full h-48 object-cover rounded-t-xl"
+          />
+          <div className="p-4">
+            <p className="text-xl font-semibold mb-2">{item.title}</p>
+            <p className="text-gray-600 mb-4 line-clamp-3">{item.description}</p>
+            <div className="text-sm text-gray-800 mb-1">
+              <span className="font-medium">📍 Location:</span>{" "}
+              <span className="text-blue-600">{item.location}</span>
             </div>
-
-            {error && <div className="text-xl text-center text-red-500">
-                {errorMessage}
-                </div>}
-
-            
-            <div className="flex justify-center  p-4 ">
-            <div className=" grid grid-cols-3 mb-16  gap-x-6 gap-y-6">
-            {searchData.map((item)=>(
-              <div key={item._id} onClick={()=>{showDeatils(item._id)}} className="w-[300px] shadow-xl  bg-white rounded-xl ">
-                <div className="mb-4"><img src={item.images[0]} alt="" /></div>
-                <div className="p-3">
-                <p className="text-2xl mb-4">{item.title}</p>
-                <p className="mb-8">{item.description}</p>
-                <div>
-                <span className="font-medium">Location:</span>
-                <span className="text-blue-600">{item.location}</span>
-                </div>
-                <div>
-                <span className="font-medium">Seller:</span>
-                <span>{item.seller.fullname}</span>
-                </div>
-                <div>
-                  <span className="font-medium">Price:-</span>
-                  <span className="text-red-600">${item.price}</span>
-                </div>
-                </div>
-              </div>
-            ))}
-            
+            <div className="text-sm text-gray-800 mb-1">
+              <span className="font-medium">👤 Seller:</span> {item.seller.fullname}
             </div>
+            <div className="text-sm text-gray-800">
+              <span className="font-medium">💰 Price:</span>{" "}
+              <span className="text-red-600">${item.price}</span>
             </div>
-            
+          </div>
         </div>
+      ))}
+    </div>
+  </div>
+</div>
+<Footer />
+</>
     )
 }
 

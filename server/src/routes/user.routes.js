@@ -5,7 +5,8 @@ import {
     logoutUser,
     addPropertylisting,
     removePropertyListing,
-    getUserListings
+    getUserListings,
+    getUserProfile
 } from '../controllers/user.controllers.js'
 import { verifyJWT } from "../middlewars/auth.middlewares.js";
 import {upload} from '../middlewars/multer.middlewares.js'
@@ -18,6 +19,7 @@ router.route('/register').post(upload.fields([
      maxCount:1
     }]),registerUser)
 router.route('/login').post(upload.none(),loginUser)
+router.route('/profile').get(verifyJWT,getUserProfile)
 router.route('/logout').get(verifyJWT,logoutUser)
 router.route('/new-property').post(verifyJWT,upload.array("photos",12),addPropertylisting)
 router.route('/delete-property').delete(verifyJWT,removePropertyListing)

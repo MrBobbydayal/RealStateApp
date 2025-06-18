@@ -5,6 +5,7 @@ import { FaHome } from "react-icons/fa";
 import {useNavigate,useLocation} from 'react-router-dom'
 import Header from "../components/Header.jsx";
 import Footer from "../components/Footer.jsx";
+import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
 const Login = function(){
 
     const location = useLocation();
@@ -17,52 +18,6 @@ const Login = function(){
     const[error,setError] = useState(false)
     const [errorMessage,setErrorMessage] = useState("Something went wrong")
     const [message,setmessage] = useState(false)
-
-    // const handleSubmit = async (e)=>{
-    //     e.preventDefault()
-    //     const formData = new FormData()
-    //     formData.append("username",userName)
-    //     formData.append("email",email)
-    //     formData.append("password",password)
-
-    //     const response = await fetch(`http://localhost:3000/api/v1/user/login`,{
-    //         method:'POST',
-    //         credentials:'include',
-    //         body:formData
-    //     })
-    //     .catch(err => {
-    //         console.log(err);
-    //     })
-
-    //     setEmail("")
-    //     setPassword("")
-    //     setUserName("")
-    //     // console.log(response);
-       
-    //     if (response && response.status === 200) {
-    //         setmessage(false);
-    //         setError(false);
-
-    //         if (response.token) {
-    //             localStorage.setItem("token", response.token);
-    //         }
-
-    //            console.log("Login response result:", response);
-    //            console.log("Saving token:", response.data.token);
-
-    //         const redirectPath = location.state?.from || "/property/search";
-    //        navigate(redirectPath, { replace: true });
-    //        }
-    //    else if(response.status == 402){
-    //         setError(true)
-    //         setErrorMessage("Incorrect Password")
-    //         setmessage(true)
-    //     }
-    //     else{
-    //         setError(true)
-    //         setErrorMessage("user does not exists")
-    //     }
-    // }
 
 
     const handleSubmit = async (e) => {
@@ -106,13 +61,13 @@ const Login = function(){
                 
             }
 
-            const redirectPath = location.state?.from || "/property/search";
+            const redirectPath = location.state?.from || "/user/Dashboard";
             navigate(redirectPath, { replace: true });
         } else if (response.status === 402) {
             setError(true);
             setErrorMessage("Incorrect Password");
             setmessage(true);
-        } else {
+        } else if(response.status === 401) {
             setError(true);
             setErrorMessage("User does not exist");
         }
@@ -131,61 +86,77 @@ const Login = function(){
 
  return(
     <>
-    <Header/>
-    <div>
-    <div className="flex bg-blue-100 ">
+<Header />
+<div className="min-h-screen bg-slate-300 flex items-center justify-center py-6 px-4">
+  <form className="bg-white w-full max-w-md mx-auto p-6 rounded-xl shadow-lg">
+    <h2 className="text-2xl font-semibold text-center text-blue-600 mb-6">🔐 Login</h2>
 
-        <div className="w-1/2 h-screen flex flex-col justify-center">
-            <p className="text-4xl text-center my-6">Find your dream property With us</p>
-            <p className="text-xl text-center my-4">Discover What Sets Us Apart</p>
-            
-            <div className=" flex justify-center">
-                {/* <form action="" className="">
-                    <div className="flex justify-around">
-                    <label htmlFor="">username: </label>
-                    <input type="text" />
-                    </div>
-                    <div className="flex justify-around">
-                    <label htmlFor="">email: </label>
-                    <input type="text" />
-                    </div>
-                    <div className="flex justify-around">
-                    <label htmlFor="">password: </label>
-                    <input type="text" />
-                    </div>
-                </form> */}
-                
-                <form action="" className=" bg-gray-100 w-[400px] p-4 rounded-xl shadow-md   ">
-                <div className="text-center text-xl mb-4">Login</div>
-                    <div className="grid grid-cols-2">
-                        <div className="text-center">
-                            <p className="m-2 p-2">username: </p>
-                            <p className="m-2 p-2">email: </p>
-                            <p className="m-2 p-2 ">password: </p>
-                        </div>
-                        <div className="c">
-                            <input type="text" value={userName} onChange={(e)=>{setUserName(e.target.value)}} className="m-2 border py-2 rounded  border-gray-300"/>
-                            <input type="email" value={email} onChange={(e)=>{setEmail(e.target.value)}} className="m-2 py-2 rounded  border border-gray-300" />
-                            <input type="password" value={password} onChange={(e)=>{setPassword(e.target.value)}} className="m-2 py-2 rounded border   border-gray-300"/>
-                        </div>
-                    </div>
-                    <div className="flex justify-center my-3 "><button onClick={handleSubmit} className="p-2 mx-2 w-32 hover:bg-blue-300 bg-blue-200 rounded">Login</button></div>
-                    {error && <div className="text-red-700 text-center">{errorMessage} </div>}
-                    <div className="flex justify-center my-3 items-center">
-                        <p>Dont have an account ?</p> <button onClick={handleSignup} className="p-2 mx-2 hover:bg-blue-300 bg-blue-200 rounded ">Signup</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-        
-        <div className="w-1/2 flex flex-col justify-around">
-        <div><img src={homeImage} alt="" width={500} className="mt-16"/></div>
-        <div className="flex justify-end"><img src={deal} alt="" width={500} className="mr-10"/></div>
-        </div>
-       
+   
+    <div className="flex items-center border rounded-md mb-4 px-3 py-2 shadow-sm">
+      <FaUser className="text-gray-500 mr-3" />
+      <input
+        type="text"
+        value={userName}
+        onChange={(e) => setUserName(e.target.value)}
+        placeholder="Username"
+        className="w-full outline-none"
+      />
     </div>
+
+    
+    <div className="flex items-center border rounded-md mb-4 px-3 py-2 shadow-sm">
+      <FaEnvelope className="text-gray-500 mr-3" />
+      <input
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="Email"
+        className="w-full outline-none"
+      />
     </div>
-    <Footer/>
+
+   
+    <div className="flex items-center border rounded-md mb-4 px-3 py-2 shadow-sm">
+      <FaLock className="text-gray-500 mr-3" />
+      <input
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        placeholder="Password"
+        className="w-full outline-none"
+      />
+    </div>
+
+   
+    {error && (
+      <div className="text-center text-red-600 mb-4">{errorMessage}</div>
+    )}
+
+ 
+    <div className="text-center text-gray-700 mb-4">
+      Don't have an account?
+      <button
+        type="button"
+        onClick={handleSignup}
+        className="ml-2 text-blue-500 hover:underline"
+      >
+        Signup
+      </button>
+    </div>
+
+  
+    <button
+      type="button"
+      onClick={handleSubmit}
+      className="w-full bg-blue-500 text-white font-semibold py-2 rounded hover:bg-blue-600 transition"
+    >
+      Login
+    </button>
+  </form>
+</div>
+
+<Footer />
+
 </> )
 }
 

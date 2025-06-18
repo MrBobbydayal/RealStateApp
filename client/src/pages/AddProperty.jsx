@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import  {  useState } from "react";
 import {useForm}from 'react-hook-form'
-import {useNavigate} from 'react-router-dom'
-import Header from '../components/Header.jsx'
-import Footer from '../components/Footer.jsx'
+import Header from "../components/Header.jsx";
+import Footer from "../components/Footer.jsx";
+import { useNavigate } from "react-router-dom";
 function AddProperty(){
-
+    const navigate=useNavigate();
     const [error,seterror] = useState(false)
     const [userListings,setUserListings] = useState([])
     const {register,handleSubmit,reset} = useForm()
@@ -12,22 +12,6 @@ function AddProperty(){
     const [loading,setLoading] = useState(false)
     const [wait,setWait] = useState(false)
 
-    useEffect(()=>{
-        setLoading(false)
-        fetch('http://localhost:3000/api/v1/user/userListings',{
-            method:'POST',
-            credentials:"include",
-        }).then(res => res.json())
-        .then(res => {setUserListings(res.data) 
-                        })
-        .catch(err => console.log(err))
-        setLoading(true)
-    },[api])
-
-    const navigate = useNavigate()
-    const showDeatils = (propertyId)=>{
-     navigate(`/property/details/${propertyId}`)
-    }
 
 
    
@@ -54,6 +38,7 @@ function AddProperty(){
         // console.log(res);
         if(res?.statuscode == 200){
               seterror(false)
+              navigate("/user/Dashboard")
         }
         else{
             seterror(true)
@@ -70,69 +55,60 @@ function AddProperty(){
     return(
       <>
       <Header/>
-       <div className="flex gap-4 p-6 h-[90vh] overflow-hidden">
-  {/* LEFT: My Listings (scrollable) */}
-  <div className="w-1/2 overflow-y-scroll pr-2">
-    <div className="text-3xl text-blue-400 font-semibold text-center mb-6">My Listings</div>
-    <div className="grid grid-cols-1 gap-6">
-      {userListings.map((item) => (
-        <div key={item._id} onClick={() => showDeatils(item._id)} className="bg-gray-100 rounded-xl shadow-md p-3 cursor-pointer hover:shadow-lg transition">
-          <div className="mb-2">
-            <img src={item.images[0]} alt="" className="rounded w-full h-[180px] object-cover" />
-          </div>
-          <div>
-            <p className="text-xl font-semibold mb-1">{item.title}</p>
-            <p className="text-sm text-gray-600 mb-2">{item.description}</p>
-            <p><span className="font-medium">Location:-</span> {item.location}</p>
-            <p><span className="font-medium">Seller:-</span> {item.seller.fullname}</p>
-            <div> 
-                  <span className="font-medium">Price:-</span>
-                  <span className="text-red-600">${item.price}</span>
-            </div>
-          </div>
-        </div>
-      ))}
+ <div className="max-w-xl mx-auto mt-10 p-6 bg-slate-400 shadow-lg rounded-lg border border-gray-100">
+      <h2 className="text-2xl font-bold text-red-700 mb-4 text-center">➕ Add Property</h2>
+<form
+  onSubmit={handleSubmit(AddProp)}
+  className="bg-slate-300 rounded-xl p-6 shadow-lg max-w-3xl mx-auto w-full"
+>
+  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+    {[
+      { label: "Title", name: "title" },
+      { label: "Description", name: "description" },
+      { label: "Location", name: "location" },
+      { label: "Price", name: "price" },
+      { label: "Bedrooms", name: "bedrooms" },
+      { label: "Bathrooms", name: "bathrooms" },
+      { label: "Property Type", name: "propertyType" }
+    ].map(({ label, name }) => (
+      <div key={name} className="flex flex-col">
+        <label className="mb-1 text-gray-700 font-medium">{label}:</label>
+        <input
+          type="text"
+          {...register(name)}
+          className="p-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-300"
+        />
+      </div>
+    ))}
+  </div>
+
+  <div className="mb-4 flex flex-col sm:flex-row sm:items-center gap-3">
+    <label className="text-gray-700 font-medium sm:w-1/3">Add Image:</label>
+    <input
+      type="file"
+      accept="image/*"
+      {...register("photos")}
+      className="p-2 rounded border border-gray-300 sm:flex-1"
+    />
+  </div>
+
+  {error && (
+    <div className="text-center text-red-500 mb-4">
+      Error: Property with same title exists!
     </div>
+  )}
+
+  <div className="flex justify-center">
+    <button
+      type="submit"
+      className="bg-green-600 text-white px-8 py-2 rounded-lg hover:bg-green-700 transition duration-200"
+    >
+      Submit
+    </button>
   </div>
-
-  {/* RIGHT: Add Property Form (also scrollable if needed) */}
-  <div className="w-1/2 overflow-y-scroll pl-2">
-    <div className="text-3xl text-blue-400 font-semibold text-center mb-4">Add A New Property</div>
-    <form onSubmit={handleSubmit(AddProp)} className="bg-slate-300 rounded-lg p-6 shadow-md">
-      <div className="text-2xl text-center mb-6">Add Property</div>
-
-      {/* Form Fields */}
-      {[
-        { label: "Title", name: "title" },
-        { label: "Description", name: "description" },
-        { label: "Location", name: "location" },
-        { label: "Price", name: "price" },
-        { label: "Bedrooms", name: "bedrooms" },
-        { label: "Bathrooms", name: "bathrooms" },
-        { label: "Property Type", name: "propertyType" }
-      ].map(({ label, name }) => (
-        <div className="mb-4 grid grid-cols-2 items-center" key={name}>
-          <label className="text-lg">{label}:</label>
-          <input type="text" className="p-2 rounded-lg" {...register(name)} />
-        </div>
-      ))}
-
-      <div className="mb-4 grid grid-cols-2 items-center">
-        <label className="text-lg">Add Image:</label>
-        <input type="file" className="p-2 rounded-lg" accept="image/*" {...register("photos")} />
-      </div>
-
-      {error && <div className="text-center text-red-500 mb-4">Error: Property with same title exists!</div>}
-
-      <div className="flex justify-center">
-        <button type="submit" className="bg-green-700 text-white px-6 py-2 rounded hover:bg-green-800">
-          Submit
-        </button>
-      </div>
-    </form>
-  </div>
+</form>
 </div>
-<Footer/>
+  <Footer/>
  </>   )
 }
 
