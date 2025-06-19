@@ -37,7 +37,7 @@ function SearchResult(){
         setLoading(true)
         if(!searchFeildValue) console.log("no seach feild");
         else{
-        fetch(`http://localhost:3000/api/v1/property/search/location`,{
+        fetch(`https://realstateapp-gcof.onrender.com/api/v1/property/search/location`,{
             method:'POST',
             headers:{
                 'Content-Type': 'application/json;charset=utf-8'

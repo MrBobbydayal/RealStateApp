@@ -28,7 +28,7 @@ const Login = function(){
     formData.append("password", password);
 
     try {
-        const response = await fetch(`http://localhost:3000/api/v1/user/login`, {
+        const response = await fetch(`https://realstateapp-gcof.onrender.com/api/v1/user/login`, {
             method: 'POST',
             credentials: 'include',
             body: formData

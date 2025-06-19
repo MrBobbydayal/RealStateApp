@@ -13,7 +13,7 @@ const MyPropertyListing = () => {
 
     useEffect(()=>{
             setLoading(false)
-            fetch('http://localhost:3000/api/v1/user/userListings',{
+            fetch('https://realstateapp-gcof.onrender.com/api/v1/user/userListings',{
                 method:'POST',
                 credentials:"include",
             }).then(res => res.json())

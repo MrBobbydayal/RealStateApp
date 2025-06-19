@@ -38,7 +38,7 @@ function SignupPage() {
     );
     formData.append("avatar", avatarFile);
 
-    const response = await fetch("http://localhost:3000/api/v1/user/register", {
+    const response = await fetch("https://realstateapp-gcof.onrender.com/api/v1/user/register", {
       method: "POST",
       body: formData,
     })

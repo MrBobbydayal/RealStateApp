@@ -11,7 +11,7 @@ function Home(){
       const [loading,setLoading] = useState(true)
 
       useEffect(()=>{
-        fetch("http://localhost:3000/api/v1/property/propertylist")
+        fetch("https://realstateapp-gcof.onrender.com/api/v1/property/propertylist")
         .then(res => res.json())
         .then(res => {
           setPropertyDetails(res.data) 

@@ -15,7 +15,7 @@ const PropertyDetails = function(){
     const {id} = useParams()
     useEffect(()=>{
 
-        fetch('http://localhost:3000/api/v1/property/details',{
+        fetch('https://realstateapp-gcof.onrender.com/api/v1/property/details',{
             method:'POST',
             credentials:"include",
             headers: {

@@ -6,7 +6,7 @@ export function MyBookings() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/v1/property/myBookings', {
+    fetch('https://realstateapp-gcof.onrender.com/api/v1/property/myBookings', {
       credentials: 'include',
     })
       .then(res => res.json())
