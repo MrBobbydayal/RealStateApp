@@ -7,7 +7,7 @@ function Header(){
 const navigate = useNavigate()
 const handleLogout= async ()=>{
     const token = localStorage.getItem("token");
-    const response = await fetch('http://localhost:3000/api/v1/user/logout',{
+    const response = await fetch('https://realstateapp-gcof.onrender.com/api/v1/user/logout',{
         method:'GET',
         credentials:"include"
     }).then(res => res.json())
