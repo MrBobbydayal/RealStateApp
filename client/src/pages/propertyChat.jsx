@@ -9,7 +9,7 @@ function AIChatModal({ property, onClose }) {
     if (!question.trim()) return;
     setLoading(true);
 
-    const res = await fetch("https://realstateapp-gcof.onrender.com/api/v1/property/AIChat", {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/property/AIChat`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ property, question })

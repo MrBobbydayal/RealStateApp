@@ -28,7 +28,7 @@ const Login = function(){
     formData.append("password", password);
 
     try {
-        const response = await fetch(`https://realstateapp-gcof.onrender.com/api/v1/user/login`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/user/login`, {
             method: 'POST',
             credentials: 'include',
             body: formData

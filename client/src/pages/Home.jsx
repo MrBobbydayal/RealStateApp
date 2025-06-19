@@ -11,7 +11,7 @@ function Home(){
       const [loading,setLoading] = useState(true)
 
       useEffect(()=>{
-        fetch("https://realstateapp-gcof.onrender.com/api/v1/property/propertylist")
+        fetch(`${import.meta.env.VITE_API_URL}/api/v1/property/propertylist`)
         .then(res => res.json())
         .then(res => {
           setPropertyDetails(res.data) 
@@ -19,7 +19,7 @@ function Home(){
         })
       },[])
 
- 
+         //console.log("port:-",import.meta.env.VITE_API_URL)
 
       const showDeatils = (propertyId) => {
            const token = localStorage.getItem("token");

@@ -37,7 +37,7 @@ function SearchResult(){
         setLoading(true)
         if(!searchFeildValue) console.log("no seach feild");
         else{
-        fetch(`https://realstateapp-gcof.onrender.com/api/v1/property/search/location`,{
+        fetch(`${import.meta.env.VITE_API_URL}/api/v1/property/search/location`,{
             method:'POST',
             headers:{
                 'Content-Type': 'application/json;charset=utf-8'
@@ -58,9 +58,25 @@ function SearchResult(){
         setLoading(false)
     }
     const navigate = useNavigate()
-    const showDeatils = (propertyId)=>{
-    navigate(`/property/details/${propertyId}`)
-    }
+    // const showDeatils = (propertyId)=>{
+    // navigate(`/property/details/${propertyId}`)
+    // }
+
+
+     const showDeatils = (propertyId) => {
+           const token = localStorage.getItem("token");
+           const targetPath = `/property/details/${propertyId}`;
+
+           if (!token) {
+   
+                 navigate("/user/login", {
+                state: { from: targetPath }
+                     });
+            } else {
+
+                 navigate(targetPath);
+                         }
+                                      };
 
     if(loading) return <div><Loader/></div>
 

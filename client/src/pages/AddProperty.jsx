@@ -29,7 +29,7 @@ function AddProperty(){
         formData.append("photos",data.photos[0])
         formData.append("propertyType",data.propertyType)
 
-        const res = await fetch('https://realstateapp-gcof.onrender.com/api/v1/user/new-property',{
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/user/new-property`,{
             method:'POST',
             body:formData,
             credentials:'include'

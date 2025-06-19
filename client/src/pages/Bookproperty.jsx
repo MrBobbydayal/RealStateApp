@@ -127,7 +127,7 @@ function PropertyBooking() {
   try {
     setLoading(true);
 
-    const response = await fetch("https://realstateapp-gcof.onrender.com/api/v1/property/Booking", {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/property/Booking`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

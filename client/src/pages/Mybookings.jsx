@@ -6,7 +6,7 @@ export function MyBookings() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('https://realstateapp-gcof.onrender.com/api/v1/property/myBookings', {
+    fetch(`${import.meta.env.VITE_API_URL}/api/v1/property/myBookings`, {
       credentials: 'include',
     })
       .then(res => res.json())

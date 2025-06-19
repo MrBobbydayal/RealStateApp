@@ -15,7 +15,7 @@ const PropertyDetails = function(){
     const {id} = useParams()
     useEffect(()=>{
 
-        fetch('https://realstateapp-gcof.onrender.com/api/v1/property/details',{
+        fetch(`${import.meta.env.VITE_API_URL}/api/v1/property/details`,{
             method:'POST',
             credentials:"include",
             headers: {

@@ -18,7 +18,7 @@ export const UserDashboard = () => {
   // const [getRecievedBookings,setGetRecievedBookings] = useState(false);
 
   useEffect(() => {
-    fetch("https://realstateapp-gcof.onrender.com/api/v1/user/profile", {
+    fetch(`${import.meta.env.VITE_API_URL}/api/v1/user/profile`, {
       method: "GET",
       credentials: "include", // for cookie-based auth
     })
