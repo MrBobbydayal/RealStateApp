@@ -2,7 +2,7 @@ import React from "react";
 function Loader(){
 return(
 <div
-  class="mx-auto w-[600px]  rounded-xl overflow-hidden drop-shadow-2xl"
+  class="mx-auto w-[600px]  rounded-xl overflow-hidden drop-shadow-2xl mr-28"
 >
   <div class="flex  p-8 justify-center items-center h-[450px]">
     <div class="text-center space-y-6">

@@ -55,6 +55,7 @@ const getUserBookings = asyncHandler(async (req, res) => {
   });
 });
 
+
 const getReceivedBookings = asyncHandler(async (req, res) => {
   const bookings = await Booking.find({ sellerId: req.user._id })
     .populate('propertyId', 'title location')

@@ -49,7 +49,7 @@ function AddProperty(){
     }
 
     
-    if(wait) return <div>Wait......</div>
+    if(wait) return <div className="flex text-xl text-center text-wrap text-red-600">Wait...... <p>your Property is adding....</p></div>
 
 
     return(
