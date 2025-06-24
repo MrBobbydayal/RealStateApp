@@ -3,6 +3,7 @@ import {useForm}from 'react-hook-form'
 import Header from "../components/Header.jsx";
 import Footer from "../components/Footer.jsx";
 import { useNavigate } from "react-router-dom";
+import Loader from "../components/Loader.jsx";
 function AddProperty(){
     const navigate=useNavigate();
     const [error,seterror] = useState(false)
@@ -10,14 +11,14 @@ function AddProperty(){
     const {register,handleSubmit,reset} = useForm()
     const [api,setApi] = useState(true)
     const [loading,setLoading] = useState(false)
-    const [wait,setWait] = useState(false)
+   
 
 
 
    
 
     const AddProp = async function(data){
-        setWait(true)
+        setLoading(true)
         // console.log(data);
         const formData = new FormData()
         formData.append("title",data.title)
@@ -45,11 +46,11 @@ function AddProperty(){
         }
         reset()
         setApi((prev)=>!prev)
-        setWait(false)
+        setLoading(false)
     }
 
     
-    if(wait) return <div className="flex text-xl text-center text-wrap text-red-600">Wait...... <p>your Property is adding....</p></div>
+    if(loading) return  <div className="justify-center items-center text-center"><Loader/><p className="text-green-600">your Property is adding....</p></div>
 
 
     return(

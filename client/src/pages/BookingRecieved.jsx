@@ -1,5 +1,6 @@
 
 import { useEffect, useState } from 'react';
+import Loader from '../components/Loader.jsx';
 
 
 
@@ -24,7 +25,7 @@ export function RecievedBookings() {
 
   console.log("response at recieved bookings",bookings)
 
-  if (loading) return <div className="p-6">Loading received bookings...</div>;
+  if (loading) return <div className="p-6"><Loader/></div>;
 
   
   return (

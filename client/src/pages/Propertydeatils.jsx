@@ -55,9 +55,7 @@ const handleBooking = () => {
 
 
      if(loading) return(
-      <div>
        <Loader/>
-      </div>
     )
 
     return (

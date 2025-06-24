@@ -4,6 +4,7 @@ import jsPDF from 'jspdf';
 import axios from 'axios';
 import Footer from '../components/Footer.jsx';
 import Header from '../components/Header.jsx';
+import Loader from '../components/Loader.jsx';
 
 function PropertyBooking() {
   const navigate = useNavigate();
@@ -165,8 +166,10 @@ function PropertyBooking() {
 };
 
 
+
   const today = new Date().toISOString().split('T')[0];
 
+  if(loading) return <div className="justify-center items-center text-center"><Loader/><p className="text-green-600">Booking is on Process....</p></div>
   return (
     <>
     <Header/>

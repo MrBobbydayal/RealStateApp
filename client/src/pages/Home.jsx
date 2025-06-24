@@ -50,9 +50,9 @@ function Home(){
     }
 
     if(loading) return(
-      <div>
+      
        <Loader/>
-      </div>
+     
     )
 
     return (<>

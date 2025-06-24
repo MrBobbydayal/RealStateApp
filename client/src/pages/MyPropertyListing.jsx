@@ -56,7 +56,7 @@ const handleDelete = async (propertyId) => {
   }
 };
 
-
+ if (loading) return <div className="p-6"><Loader/></div>;
 
 
 

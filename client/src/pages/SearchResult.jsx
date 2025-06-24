@@ -16,7 +16,7 @@ function SearchResult(){
     useEffect(  ()=>{
         setLoading(true)
         setSearchFeildValue(location)
-        fetch(`http://localhost:3000/api/v1/property/search/location`,{
+        fetch(`${import.meta.env.VITE_API_URL}/api/v1/property/search/location`,{
             method:'POST',
             headers:{
                 'Content-Type': 'application/json;charset=utf-8'
