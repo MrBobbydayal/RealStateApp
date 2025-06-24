@@ -7,6 +7,8 @@ function Header(){
 const navigate = useNavigate()
 const handleLogout= async ()=>{
     const token = localStorage.getItem("token");
+    const confirmDelete = window.confirm("Are you sure you want to delete this property?");
+   if (!confirmDelete) return;
     const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/user/logout`,{
         method:'GET',
         credentials:"include"
